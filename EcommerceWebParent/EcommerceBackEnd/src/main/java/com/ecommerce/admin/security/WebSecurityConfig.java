@@ -46,9 +46,10 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")
                         .permitAll())
-
-                .logout(LogoutConfigurer::permitAll);
-
+                .logout(LogoutConfigurer::permitAll)
+                .rememberMe(rem -> rem
+                    .key("AbcDefgHijKlmnOpqrs_1234567890")
+                    .tokenValiditySeconds(7 * 24 * 60 * 60));
 
         return http.build();
     }
