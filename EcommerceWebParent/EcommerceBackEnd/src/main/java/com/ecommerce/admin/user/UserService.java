@@ -19,7 +19,7 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class UserService {
 
-    public static final int USERS_PER_PAGE = 4;
+    public static final int USERS_PER_PAGE = 10;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,6 +29,10 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public User getByEmail(String email){
+        return userRepository.getUserByEmail(email);
+    }
 
     public List<User> listAll() {
         return (List<User>) userRepository.findAll();
@@ -61,6 +65,24 @@ public class UserService {
 
     }
 
+    public User updateAccount(User userInForm){
+        User userInDB = userRepository.findById(userInForm.getId()).get();
+
+        if (!userInForm.getPassword().isEmpty()){
+            userInDB.setPassword(userInForm.getPassword());
+            encodePassword(userInDB);
+        }
+
+        if (userInForm.getPhotos() != null){
+            userInDB.setPhotos(userInForm.getPhotos());
+        }
+
+        userInDB.setFirstName(userInForm.getFirstName());
+        userInDB.setLastName(userInForm.getLastName());
+
+        return userRepository.save(userInDB);
+    }
+
     private void encodePassword(User user) {
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
@@ -74,7 +96,7 @@ public class UserService {
         boolean isCreatingNew = (id == null);
 
         if (isCreatingNew) {
-            if (userByEmail != null) return false;
+            return userByEmail == null;
         } else {
             if (userByEmail.getId() != id) {
                 return false;
