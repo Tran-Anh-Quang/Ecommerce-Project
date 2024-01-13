@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan({"com.ecommerce.common.entity", "com.ecommerce.admin.user"})
 public class EcommerceBackEndApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EcommerceBackEndApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EcommerceBackEndApplication.class, args);
+    }
 
 }
