@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import com.ecommerce.admin.export.UserCsvExporter;
 import com.ecommerce.admin.user.exception.UserNotFoundException;
 import com.ecommerce.admin.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -129,5 +131,12 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/users/export/csv")
+    public void exportToCSV(HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.listAll();
+        UserCsvExporter exporter = new UserCsvExporter();
+        exporter.export(listUsers, response);
     }
 }
