@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: page_head('Your Account Details')}"></head>
+<head th:replace="fragments :: page_head(${pageTitle})"></head>
 <body>
 <div class="container-fluid">
     <div th:replace="~{navigation ::  menu}"></div>
-
-    <form th:action="@{/account/update}" method="post"
+    <div>
+        <h2>Manage Users | [[${pageTitle}]]</h2>
+    </div>
+    <form th:action="@{/users/save}" method="post"
           style="max-width: 700px; margin: 0 auto"
           enctype="multipart/form-data"
-          th:object="${user}">
-
-        <div class="text-center p-3">
-            <h2>Your Account Details</h2>
-        </div>
-
-        <div th:if="${message != null}"
-             class="alert alert-success text-center">[[${message}]]
-        </div>
-
+          th:object="${user}"
+          onsubmit="return checkEmailUnique(this);">
         <input type="hidden" th:field="*{id}"/>
-
         <div class="border border-secondary rounded p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Email:</label>
                 <div class="col-sm-8">
                     <label>
-                        <input type="email" class="form-control" th:field="*{email}" readonly="readonly"/>
+                        <input type="email" class="form-control" th:field="*{email}"
+                               required minlength="8" maxlength="128"/>
                     </label>
                 </div>
             </div>
@@ -54,28 +48,29 @@
                 <label class="col-sm-4 col-form-label">Password:</label>
                 <div class="col-sm-8">
                     <label>
-                        <input type="password" th:field="*{password}"
-                               minlength="8" maxlength="20"
-                               oninput="checkPasswordMatch(document.getElementById('confirmPassword'))">
+                        <input th:if="${user.id == null}" type="password"
+                               class="form-control" th:field="*{password}" required
+                               minlength="8" maxlength="20"/>
                     </label>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Confirm password:</label>
-                <div class="col-sm-8">
                     <label>
-                        <input type="password" id="confirmPassword" class="form-control"
-                               minlength="8" maxlength="20"
-                        oninput="checkPasswordMatch(this)">
+                        <input
+                        th:if="${user.id != null}" type="password" class="form-control"
+                        th:field="*{password}" minlength="8" maxlength="20"/>
                     </label>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Assigned Roles:</label>
+                <label class="col-sm-4 col-form-label">Roles:</label>
                 <div class="col-sm-8">
-                    <span><b>[[${user.roles}]]</b></span>
+                    <th:block th:each="role: ${listRoles}">
+                        <label>
+                            <input type="checkbox" th:field="*{roles}" th:text="${role.name}"
+                                   th:value="${role.id}" class="m-2"/>
+                        </label>
+                        - <small>[[${role.description}]]</small>
+                        <br/>
+                    </th:block>
                 </div>
             </div>
 
@@ -87,6 +82,15 @@
                            class="mb-2"/>
                     <img id="thumbnail" alt="Photos preview"
                          th:src="@{${user.photosImagePath}}" class="img-fluid" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Enabled:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="checkbox" th:field="*{enabled}" class="m-2"/>
+                    </label>
                 </div>
             </div>
 
@@ -117,42 +121,36 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#buttonCancel").on("click", function(){
-            window.location = "[[@{/users}]]";
-        });
+    moduleURL = "[[@{/users}]]";
+    function checkEmailUnique(form) {
+        url = "[[@{/users/check_email}]]";
+        userEmail = $("#email").val();
+        userId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
 
-        $("#fileImage").change(function(){
-            fileSize = this.files[0].size;
+        params = {id: userId, email: userEmail, _csrf: csrfValue};
 
-            if (fileSize > 1048576){
-                this.setCustomValidity("You must choose image less than 1MB!");
-                this.reportValidity();
+        $.post(url, params, function(response) {
+            if (response == "OK") {
+                form.submit();
+            }else if (response == "Duplicated"){
+                showModalDialog("Warning", "There is another user having the email " + userEmail);
             }else {
-                this.setCustomValidity("");
-                showImageThumbnail(this);
+                showModalDialog("Error", "Unknown response from server");
             }
+        }).fail(function(){
+                showModalDialog("Error", "Could not connect to server");
         });
-    });
-
-    function showImageThumbnail(fileInput){
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#thumbnail").attr("src", e.target.result);
-        };
-        reader.readAsDataURL(file);
+        return false;
     }
 
-    function checkPasswordMatch(confirmPassword){
-        if (confirmPassword.value != $("#password").val()) {
-            confirmPassword.setCustomValidity("Password does not match!");
-        }else {
-            confirmPassword.setCustomValidity("");
-        }
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#modalDialog").modal();
     }
 
 </script>
-
+<script th:src="@{/js/common_form.js}"></script>
 </body>
 </html>

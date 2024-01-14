@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.ecommerce.admin.user.UserRepository;
+import com.ecommerce.admin.user.repository.UserRepository;
 import com.ecommerce.common.entity.User;
 
 public class EcommerceUserDetailsService implements UserDetailsService {

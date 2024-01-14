@@ -1,4 +1,4 @@
-package com.ecommerce.admin.user;
+package com.ecommerce.admin.user.exception;
 
 public class UserNotFoundException extends Exception {
 
