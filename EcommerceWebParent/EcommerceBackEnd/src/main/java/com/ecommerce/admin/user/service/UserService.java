@@ -1,8 +1,11 @@
-package com.ecommerce.admin.user;
+package com.ecommerce.admin.user.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.ecommerce.admin.user.exception.UserNotFoundException;
+import com.ecommerce.admin.user.repository.RoleRepository;
+import com.ecommerce.admin.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

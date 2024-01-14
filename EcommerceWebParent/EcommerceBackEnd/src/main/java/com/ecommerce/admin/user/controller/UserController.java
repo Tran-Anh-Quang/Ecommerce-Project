@@ -1,9 +1,11 @@
-package com.ecommerce.admin.user;
+package com.ecommerce.admin.user.controller;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import com.ecommerce.admin.user.exception.UserNotFoundException;
+import com.ecommerce.admin.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -50,7 +52,7 @@ public class UserController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listUsers", listUsers);
 
-        return "users";
+        return "users/users";
     }
 
     @GetMapping("/users/new")
@@ -63,7 +65,7 @@ public class UserController {
         model.addAttribute("listRoles", listRoles);
         model.addAttribute("pageTitle", "Create New User");
 
-        return "user_form";
+        return "users/user_form";
     }
 
     @PostMapping("/users/save")
@@ -98,7 +100,7 @@ public class UserController {
             model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
             model.addAttribute("listRoles", listRoles);
 
-            return "user_form";
+            return "users/user_form";
         } catch (UserNotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
