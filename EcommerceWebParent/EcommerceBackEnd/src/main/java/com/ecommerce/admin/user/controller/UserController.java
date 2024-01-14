@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.ecommerce.admin.export.UserCsvExporter;
+import com.ecommerce.admin.export.UserExcelExporter;
 import com.ecommerce.admin.user.exception.UserNotFoundException;
 import com.ecommerce.admin.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -137,6 +138,13 @@ public class UserController {
     public void exportToCSV(HttpServletResponse response) throws IOException {
         List<User> listUsers = userService.listAll();
         UserCsvExporter exporter = new UserCsvExporter();
+        exporter.export(listUsers, response);
+    }
+
+    @GetMapping("/users/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.listAll();
+        UserExcelExporter exporter = new UserExcelExporter();
         exporter.export(listUsers, response);
     }
 }
