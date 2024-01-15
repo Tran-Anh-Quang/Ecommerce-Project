@@ -34,14 +34,13 @@
                 <td>[[${category.image}]]</td>
                 <td>[[${category.name}]]</td>
                 <td>[[${category.alias}]]</td>
-                <td>[[${category.parent}]]</td>
                 <td>
                     <a th:if="${category.enabled == true}"
                        class="fas fa-check-circle fa-2x icon-green"
                        th:href="@{'categories/' + ${category.id} + '/enabled/false'}"
                        title="Disable this category">
                     </a>
-                    <a th:if="${categories.enabled != true}"
+                    <a th:if="${category.enabled != true}"
                        class="fas fa-circle fa-2x icon-dark"
                        th:href="@{'categories/' + ${category.id} + '/enabled/true'}"
                        title="Enable this category">
