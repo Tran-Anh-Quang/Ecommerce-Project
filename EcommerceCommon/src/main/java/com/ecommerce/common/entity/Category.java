@@ -30,7 +30,7 @@ public class Category {
     private boolean enabled;
 
     @OneToOne
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_id", unique = false)
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
