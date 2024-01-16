@@ -1,5 +1,6 @@
 package com.ecommerce.admin.category.service;
 
+import com.ecommerce.admin.category.exception.CategoryNotFoundException;
 import com.ecommerce.admin.category.repository.CategoryRepository;
 import com.ecommerce.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,14 @@ public class CategoryService {
 
     public Category save(Category category){
         return categoryRepository.save(category);
+    }
+
+    public void delete(Integer id) throws CategoryNotFoundException {
+        Long countById = categoryRepository.countById(id);
+        if (countById == null || countById == 0) {
+            throw new CategoryNotFoundException("Could not find any category with ID: " + id);
+        }
+
+        categoryRepository.deleteById(id);
     }
 }
