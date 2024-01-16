@@ -30,7 +30,7 @@ public class Category {
     private boolean enabled;
 
     @OneToOne
-    @JoinColumn(name = "parent_id", unique = false)
+    @JoinColumn(name = "parent_id")
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
@@ -73,4 +73,5 @@ public class Category {
 
         return "/category-images/" + this.id + "/" + this.image;
     }
+}
 }
