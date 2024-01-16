@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="~{fragments :: page_head(${pageTitle})}"></head>
 <body>
 <div class="container-fluid">
     <div th:replace="~{navigation ::  menu}"></div>
@@ -13,6 +13,10 @@
           th:object="${user}"
           onsubmit="return checkEmailUnique(this);">
         <input type="hidden" th:field="*{id}"/>
+        <div th:if="${message != null}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
+
         <div class="border border-secondary rounded p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Email:</label>
