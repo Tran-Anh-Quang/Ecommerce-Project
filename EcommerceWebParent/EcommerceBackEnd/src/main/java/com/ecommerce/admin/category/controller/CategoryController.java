@@ -1,5 +1,6 @@
 package com.ecommerce.admin.category.controller;
 
+import com.ecommerce.admin.category.exception.CategoryNotFoundException;
 import com.ecommerce.admin.category.service.CategoryService;
 import com.ecommerce.admin.export.CategoryExcelExporter;
 import com.ecommerce.common.entity.Category;
@@ -45,6 +46,19 @@ public class CategoryController {
         model.addAttribute("listCategories", listCategories);
 
         return "categories/categories";
+    }
+
+    @GetMapping("/categories/delete/{id}")
+    public String deleteCategory(@PathVariable(name = "id") Integer id, Model model,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            categoryService.delete(id);
+            redirectAttributes.addFlashAttribute("message", "The category's ID: " + id + " has been deleted successful!");
+        } catch (CategoryNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/categories";
     }
 
     @GetMapping("/categories/{id}/enabled/{status}")
