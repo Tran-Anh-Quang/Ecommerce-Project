@@ -46,4 +46,11 @@ public class Brand {
                 ", categories=" + categories +
                 '}';
     }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (id == null || logo == null) return null;
+
+        return "/brand-logos/" + this.id + "/" + this.logo;
+    }
 }
