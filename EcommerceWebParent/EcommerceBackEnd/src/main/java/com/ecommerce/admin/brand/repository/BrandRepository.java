@@ -6,4 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
+
+    public Long countById(Integer id);
 }
