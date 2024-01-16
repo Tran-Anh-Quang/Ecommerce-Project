@@ -74,4 +74,4 @@ public class Category {
         return "/category-images/" + this.id + "/" + this.image;
     }
 }
-}
+
