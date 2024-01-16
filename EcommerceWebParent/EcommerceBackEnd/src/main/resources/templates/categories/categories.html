@@ -37,7 +37,14 @@
             <tbody>
             <tr th:each="category: ${listCategories}">
                 <td>[[${category.id}]]</td>
-                <td>[[${category.image}]]</td>
+                <td>
+                    <span th:if="${category.image == null}"
+                          class="fa-solid fa-image-portrait fa-3x icon-dark">
+                    </span>
+                    <img
+                            th:if="${category.image != null}"
+                            th:src="@{${category.photosImagePath}}" style="width: 100px" alt="">
+                </td>
                 <td>[[${category.name}]]</td>
                 <td>[[${category.alias}]]</td>
                 <td>
