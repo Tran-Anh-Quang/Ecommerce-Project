@@ -38,6 +38,11 @@ public class Brand {
         this.logo = "brand-logo.png";
     }
 
+    public Brand(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Brand{" +
