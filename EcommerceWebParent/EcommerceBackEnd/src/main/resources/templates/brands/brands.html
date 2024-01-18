@@ -55,7 +55,7 @@
                        th:href="@{'/brands/edit/' + ${brand.id}}" title="Edit this brand">
                     </a>
                     <a class="fa-solid fa-trash-can fa-2x icon-dark link-delete"
-                       th:userId="${brand.id}" th:href="@{'/brands/delete/' + ${brand.id}}"
+                       th:brandID="${brand.id}" th:href="@{'/brands/delete/' + ${brand.id}}"
                        title="Delete this brand">
                     </a>
                 </td>
@@ -80,18 +80,18 @@
                     <a class="page-link" th:href="@{/categories/page/1}">First</a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1}}">Previous</a>
+                    <a class="page-link" th:href="@{'/brands/page/' + ${currentPage - 1}}">Previous</a>
                 </li>
                 <li
                         th:class="${currentPage != i ? 'page-item' : 'page-item active' }"
                         th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${i}}">[[${i}]]</a>
+                    <a class="page-link" th:href="@{'/brands/page/' + ${i}}">[[${i}]]</a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled' }">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage + 1}}">Next</a>
+                    <a class="page-link" th:href="@{'/brands/page/' + ${currentPage + 1}}">Next</a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled' }">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${totalPages}}">Last</a>
+                    <a class="page-link" th:href="@{'/brands/page/' + ${totalPages}}">Last</a>
                 </li>
 
             </ul>

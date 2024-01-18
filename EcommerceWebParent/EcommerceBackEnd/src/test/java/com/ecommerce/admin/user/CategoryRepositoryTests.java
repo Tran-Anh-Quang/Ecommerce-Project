@@ -21,7 +21,7 @@ public class CategoryRepositoryTests {
 
     @Test
     public void testCreateRootCategory(){
-        Category category = new Category("Computers");
+        Category category = new Category("Software");
         Category savedCategory = categoryRepository.save(category);
 
         assertThat(savedCategory.getId()).isGreaterThan(0);
@@ -29,8 +29,8 @@ public class CategoryRepositoryTests {
 
     @Test
     public void testCreateSubCategory(){
-        Category parent = new Category(2);
-        Category subCategory = new Category("Gaming Laptops", parent);
+        Category parent = new Category(10);
+        Category subCategory = new Category("RAM", parent);
         Category savedCategory = categoryRepository.save(subCategory);
 
         assertThat(savedCategory.getId()).isGreaterThan(0);
