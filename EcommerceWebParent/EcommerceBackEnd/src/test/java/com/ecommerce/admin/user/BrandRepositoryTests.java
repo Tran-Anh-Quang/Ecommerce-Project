@@ -35,13 +35,13 @@ public class BrandRepositoryTests {
 
     @Test
     public void testCreateBrand2(){
-        Category cellphones = new Category(1);
-        Category tablets = new Category(2);
-        Brand apple = new Brand("Apple");
-        apple.getCategories().add(cellphones);
-        apple.getCategories().add(tablets);
+        Category cellphones = new Category(5);
+        Category tablets = new Category(6);
+        Brand xiaomi = new Brand("Xiaomi");
+        xiaomi.getCategories().add(cellphones);
+        xiaomi.getCategories().add(tablets);
 
-        Brand savedBrand = brandRepository.save(apple);
+        Brand savedBrand = brandRepository.save(xiaomi);
 
         assertThat(savedBrand).isNotNull();
         assertThat(savedBrand.getId()).isGreaterThan(0);
