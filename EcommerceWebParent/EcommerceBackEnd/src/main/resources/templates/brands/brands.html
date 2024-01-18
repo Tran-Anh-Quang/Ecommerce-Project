@@ -55,7 +55,7 @@
                        th:href="@{'/brands/edit/' + ${brand.id}}" title="Edit this brand">
                     </a>
                     <a class="fa-solid fa-trash-can fa-2x icon-dark link-delete"
-                       th:userId="${brand.id}" th:href="@{'/brands/delete/' + ${brand.id}}"
+                       th:brandID="${brand.id}" th:href="@{'/brands/delete/' + ${brand.id}}"
                        title="Delete this brand">
                     </a>
                 </td>
