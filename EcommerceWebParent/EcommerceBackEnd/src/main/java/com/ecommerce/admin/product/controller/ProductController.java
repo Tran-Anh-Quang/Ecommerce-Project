@@ -1,8 +1,10 @@
 package com.ecommerce.admin.product.controller;
 
+import com.ecommerce.admin.brand.service.BrandService;
 import com.ecommerce.admin.export.ProductExcelExporter;
 import com.ecommerce.admin.product.exception.ProductNotFoundException;
 import com.ecommerce.admin.product.service.ProductService;
+import com.ecommerce.common.entity.Brand;
 import com.ecommerce.common.entity.Product;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -21,6 +24,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private BrandService brandService;
 
     @GetMapping("/products")
     public String listFirstPage(Model model) {
@@ -67,5 +73,29 @@ public class ProductController {
         List<Product> listProducts = productService.listAll();
         ProductExcelExporter exporter = new ProductExcelExporter();
         exporter.export(listProducts, response);
+    }
+
+    @GetMapping("/products/new")
+    public String newProduct(Model model){
+        List<Brand> listBrands = brandService.listAll();
+
+        Product product = new Product();
+        product.setEnabled(true);
+        product.setInStock(true);
+
+        model.addAttribute("product", product);
+        model.addAttribute("listBrands", listBrands);
+        model.addAttribute("pageTitle", "Create New Product");
+
+        return "products/product_form";
+    }
+
+    @PostMapping("/products/save")
+    public String savedProduct(Product product){
+        System.out.println("Product Name" + product.getName());
+        System.out.println("Brand ID" + product.getId());
+        System.out.println("Category ID" + product.getCategory().getId());
+
+        return "redirect:/products";
     }
 }
