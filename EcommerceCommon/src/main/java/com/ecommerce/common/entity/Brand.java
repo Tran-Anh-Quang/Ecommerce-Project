@@ -53,7 +53,7 @@ public class Brand {
     }
 
     @Transient
-    public String getPhotosImagePath() {
+    public String getLogosImagePath() {
         if (id == null || logo == null) return null;
 
         return "/brand-logos/" + this.id + "/" + this.logo;
