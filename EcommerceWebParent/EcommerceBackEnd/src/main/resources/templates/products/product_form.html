@@ -127,6 +127,7 @@
         }).fail(function() {
             showErrorModal("Could not connect to the server");
         });
+        return false;
     }
 </script>
 <script th:src="@{/js/common_form.js}"></script>

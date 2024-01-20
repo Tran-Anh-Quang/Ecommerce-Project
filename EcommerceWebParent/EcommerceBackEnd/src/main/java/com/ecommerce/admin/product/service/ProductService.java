@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
 
     public static final int PRODUCTS_PER_PAGE = 5;
@@ -64,5 +66,9 @@ public class ProductService {
             }
         }
         return "OK";
+    }
+
+    public void updateProductEnabledStatus(Integer id, boolean enabled){
+        productRepository.updateEnabledStatus(id, enabled);
     }
 }
