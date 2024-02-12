@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Getter
@@ -56,6 +56,9 @@ public class Product {
 
     private float weight;
 
+    @Column(name = "main_image", nullable = false)
+    private String mainImage;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -64,10 +67,31 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductDetail> details = new ArrayList<>();
+
     @Override
     public String toString() {
         return "Product" +
                 "id=" + id +
                 ", name='" + name + '\'';
+    }
+
+    public void addExtraImage(String imageName){
+        this.images.add(new ProductImage(imageName, this));
+    }
+
+    @Transient
+    public String getMainImagePath(){
+        if (id == null || mainImage == null) return "/images/image-thumbnail.png";
+        return "/product-images/" + this.id + "/" + this.mainImage;
+    }
+
+    public void addDetail(String name, String value){
+        this.details.add(new ProductDetail(name, value, this));
     }
 }

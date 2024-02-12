@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: page_head('Products - Ecommerce Admin')}">
+<head th:replace="~{fragments :: page_head('Products - Ecommerce Admin', 'none')}">
 
 </head>
 <body>
@@ -39,7 +39,7 @@
             <tr th:each="product: ${listProducts}">
                 <td>[[${product.id}]]</td>
                 <td>
-
+                    <img th:src="@{${product.mainImagePath}}" style="width: 120px" class="img-fluid">
                 </td>
                 <td>[[${product.name}]]</td>
                 <td th:if="${product.brand != null}" th:text="${product.brand.name}"></td>

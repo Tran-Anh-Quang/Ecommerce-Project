@@ -28,21 +28,21 @@ public class ProductRepositoryTests {
 
     @Test
     public void testCreateProduct(){
-        Brand brand = entityManager.find(Brand.class, 1);
+        Brand brand = entityManager.find(Brand.class, 9);
         Category category = entityManager.find(Category.class, 2);
 
         Product product = new Product();
 
-        product.setName("Acer Aspire desktop");
-        product.setAlias("acer_aspire_desktop");
-        product.setShortDescription("A good smartphone from Acer Aspire");
+        product.setName("Asus Gaming Laptop");
+        product.setAlias("asus_gaming_laptop");
+        product.setShortDescription("A good laptop from Asus");
         product.setFullDescription("This is a very good laptop full description");
 
         product.setBrand(brand);
         product.setCategory(category);
 
-        product.setPrice(678);
-        product.setCost(600);
+        product.setPrice(999);
+        product.setCost(700);
         product.setEnabled(true);
         product.setInStock(true);
 
@@ -92,5 +92,34 @@ public class ProductRepositoryTests {
         Optional<Product> result = productRepository.findById(id);
 
         assertThat(!result.isPresent());
+    }
+
+    @Test
+    public void testSaveProductImages(){
+        Integer productId = 1;
+        Product product = productRepository.findById(productId).get();
+
+        product.setMainImage("main image.jpg");
+        product.addExtraImage("extra image 1.png");
+        product.addExtraImage("extra_image_2.png");
+        product.addExtraImage("extra-image3.png");
+
+        Product savedProduct = productRepository.save(product);
+
+        assertThat(savedProduct.getImages().size()).isEqualTo(3);
+    }
+
+    @Test
+    public void testSaveProductWithDetails(){
+        Integer productId = 1;
+        Product product = productRepository.findById(productId).get();
+
+        product.addDetail("Device Memory", "128 GB");
+        product.addDetail("CPU Model", "MediaTek");
+        product.addDetail("OS", "Android 10");
+
+        Product savedProduct = productRepository.save(product);
+
+        assertThat(savedProduct.getDetails()).isNotEmpty();
     }
 }

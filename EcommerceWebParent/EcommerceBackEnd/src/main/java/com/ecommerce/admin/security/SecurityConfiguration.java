@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class WebSecurityConfig {
+public class SecurityConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -41,8 +41,14 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/**").hasAuthority("Admin")
-                        .requestMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
-                        .requestMatchers("/products/**").hasAnyAuthority("Admin", "Editor", "Sales Person", "Shipper")
+                        .requestMatchers("/categories/**", "/brands/**")
+                        .hasAnyAuthority("Admin", "Editor")
+                        .requestMatchers("/products/edit/**", "/products/save", "/products/check_unique")
+                        .hasAnyAuthority("Admin", "Editor", "Sales Person")
+                        .requestMatchers("/products", "/products/", "/products/detail/**")
+                        .hasAnyAuthority("Admin", "Editor", "Sales Person", "Shipper")
+                        .requestMatchers("/products/**")
+                        .hasAnyAuthority("Admin", "Editor")
                         .anyRequest().authenticated()
                 )
 

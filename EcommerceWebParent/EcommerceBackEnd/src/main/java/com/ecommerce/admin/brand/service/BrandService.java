@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BrandService {
@@ -24,6 +25,14 @@ public class BrandService {
     public Page<Brand> listByPage(int pageNum) {
         Pageable pageable = PageRequest.of(pageNum - 1, BRANDS_PER_PAGE);
         return brandRepository.findAll(pageable);
+    }
+
+    public Brand get(Integer id) throws BrandNotFoundException{
+        try {
+            return brandRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            throw new BrandNotFoundException("Could not find any brand with ID" + id);
+        }
     }
 
     public void delete(Integer id) throws BrandNotFoundException {

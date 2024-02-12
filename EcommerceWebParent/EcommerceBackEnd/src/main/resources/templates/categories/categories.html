@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: page_head('Categories - Ecommerce Admin')}">
+<head th:replace="~{fragments :: page_head('Categories - Ecommerce Admin', 'none')}">
 
 </head>
 <body>
@@ -43,7 +43,7 @@
                     </span>
                     <img
                             th:if="${category.image != null}"
-                            th:src="@{${category.photosImagePath}}" style="width: 100px" alt="">
+                            th:src="@{${category.imagePath}}" style="width: 100px" alt="">
                 </td>
                 <td>[[${category.name}]]</td>
                 <td>[[${category.alias}]]</td>
