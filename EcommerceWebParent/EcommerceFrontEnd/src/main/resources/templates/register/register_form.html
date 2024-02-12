@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: page_head(${pageTitle}, 'none')}">
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		<div>
+			<h2>Customer Registration</h2>
+		</div>
+		<form th:action="@{/create_customer}" method="post" th:object="${customer}">
+			<div class="border border-secondary rounded">
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">
+						First Name
+					</label>
+					<div class="col-sm-4">
+						<input type="text" th:field="*{firstName}">
+					</div>
+				</div>
+			</div>
+		</form>
+		<div th:replace="navigation :: footer_menu"></div>
+	</div>
+</body>
+</html>

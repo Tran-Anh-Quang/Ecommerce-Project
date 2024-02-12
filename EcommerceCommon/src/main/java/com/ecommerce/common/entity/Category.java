@@ -68,10 +68,10 @@ public class Category {
     }
 
     @Transient
-    public String getPhotosImagePath() {
+    public String getImagePath() {
         if (id == null || image == null) return "/images/image-thumbnail.png";
 
-        return "/category-images/" + this.id + "/" + this.image;
+        return "/category-photos/" + this.id + "/" + this.image;
     }
 }
 

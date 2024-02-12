@@ -43,9 +43,11 @@
                 </div>
             </div>
             <div class="tab-pane" id="countries" role="tabpanel" >
-                <h2>Countries</h2>
+                <div th:replace="~{settings/countries :: content}">
+
+                </div>
             </div>
-            <div class="tab-pane" id="states" role="tabpanel" >
+            <div class="tab-pane p-3" id="states" role="tabpanel" >
                 <h2>States</h2>
             </div>
             <div class="tab-pane p-3" id="mailServer" role="tabpanel" >
@@ -59,5 +61,6 @@
     <div th:replace="~{fragments ::footer}"></div>
 </div>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/countries_settings.js}"></script>
 </body>
 </html>

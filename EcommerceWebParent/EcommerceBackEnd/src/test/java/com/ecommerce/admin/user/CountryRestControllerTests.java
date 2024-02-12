@@ -17,8 +17,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -51,7 +53,8 @@ public class CountryRestControllerTests {
 
 
     @Test
-    @WithMockUser(username = "nam@codejava.net", password = "something", roles = "ADMIN") public void testCreateCountry() throws JsonProcessingException, Exception {
+    @WithMockUser(username = "dinosaurous9x@gmail.com", password = "12345678", roles = "ADMIN")
+    public void testCreateCountry() throws JsonProcessingException, Exception {
         String url="/countries/save";
         String countryName = "Germany";
         String countryCode = "DE";
@@ -70,6 +73,45 @@ public class CountryRestControllerTests {
 
         Country savedCountry = findById.get();
         assertThat(savedCountry.getName()).isEqualTo(countryName);
+    }
+
+    @Test
+    @WithMockUser(username = "dinosaurous9x@gmail.com", password = "12345678", roles = "ADMIN")
+    public void testUpdateCountry() throws JsonProcessingException, Exception {
+        String url="/countries/save";
+
+        Integer countryId = 7;
+        String countryName = "Canada";
+        String countryCode = "CA";
+        Country country = new Country(countryId, countryName, countryCode);
+
+        mockMvc.perform(post(url).contentType("application/json")
+                        .content(objectMapper.writeValueAsString(country))
+                        .with(csrf()))
+                . andDo (print())
+                .andExpect(status().isOk())
+                . andExpect(content().string(String.valueOf(countryId)));
+
+        Optional<Country> findById = countryRepository.findById(countryId);
+        assertThat(findById.isPresent());
+
+        Country savedCountry = findById.get();
+
+        assertThat(savedCountry.getName()).isEqualTo(countryName);
+    }
+
+    @Test
+    @WithMockUser(username = "dinosaurous9x@gmail.com", password = "12345678", roles = "ADMIN")
+    public void testDeleteCountry() throws Exception {
+        Integer countryId = 7;
+
+        String url = "/countries/delete/" + countryId;
+
+        mockMvc.perform(get(url)).andExpect(status().isOk());
+
+        Optional<Country> findById = countryRepository.findById(countryId);
+
+        assertThat(findById).isNotPresent();
     }
 
 }
