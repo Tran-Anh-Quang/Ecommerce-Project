@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
-
     public Long countById(Integer id);
 
     @Query("SELECT NEW Brand(b.id, b.name) b FROM Brand b ORDER BY b.name ASC")
